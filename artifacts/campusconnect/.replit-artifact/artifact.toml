@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "CampusConnect"
+description = "A university scheduling app where academic advisors manage office hours and students view and update tutor availability."
+version = "1.0.0"
+id = "artifacts/campusconnect"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20795
+
+[services.development]
+run = "pnpm --filter @workspace/campusconnect run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/campusconnect", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/campusconnect/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20795"
+BASE_PATH = "/"
